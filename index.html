@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 Enhanced Smart Finance Tracker</title>
+    <link rel="stylesheet" href="ft.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 Enhanced Smart Finance Tracker</h1>
+            <p style="color: rgba(255,255,255,0.8); font-size: 1.1rem;">Master your money, secure your future</p>
+        </div>
+
+        <div class="balance-section">
+            <div class="balance-card">
+                <h2>💳 Total Balance</h2>
+                <div class="balance-amount" id="balance">$0.00</div>
+            </div>
+            <div class="quick-stat">
+                <h3>📈 This Month Income</h3>
+                <div class="amount income-stat" id="month-income">$0.00</div>
+            </div>
+            <div class="quick-stat">
+                <h3>📉 This Month Expenses</h3>
+                <div class="amount expense-stat" id="month-expenses">$0.00</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('transactions')">💸 Transactions</button>
+            <button class="tab" onclick="switchTab('budget')">🎯 Budget & Goals</button>
+            <button class="tab" onclick="switchTab('reports')">📊 Reports</button>
+        </div>
+
+        <div id="transactions-tab" class="tab-content active">
+            <div class="main-grid">
+                <div class="action-panel">
+                    <h3>💰 Add Income</h3>
+                    <div class="input-group">
+                        <label>Amount ($)</label>
+                        <input type="number" id="income-amount" placeholder="Enter amount" step="0.01">
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Category</label>
+                            <select id="income-category">
+                                <option value="Salary">💼 Salary</option>
+                                <option value="Freelance">🎨 Freelance</option>
+                                <option value="Investment">📈 Investment</option>
+                                <option value="Business">🏢 Business</option>
+                                <option value="Rental">🏠 Rental Income</option>
+                                <option value="Bonus">🎁 Bonus</option>
+                                <option value="Commission">💼 Commission</option>
+                                <option value="Gift">🎉 Gift</option>
+                                <option value="Refund">🔄 Refund</option>
+                                <option value="Other">🎯 Other</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Payment Method</label>
+                            <select id="income-payment">
+                                <option value="Cash">💵 Cash</option>
+                                <option value="Bank Transfer">🏦 Bank Transfer</option>
+                                <option value="Credit Card">💳 Credit Card</option>
+                                <option value="Digital Wallet">📱 Digital Wallet</option>
+                                <option value="Check">📄 Check</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Description/Notes</label>
+                        <textarea id="income-description" placeholder="Enter description or notes"></textarea>
+                    </div>
+                    <button class="btn btn-income" onclick="addTransaction('income')">
+                        ✨ Add Income
+                    </button>
+                </div>
+
+                <div class="action-panel">
+                    <h3>💸 Add Expense</h3>
+                    <div class="input-group">
+                        <label>Amount ($)</label>
+                        <input type="number" id="expense-amount" placeholder="Enter amount" step="0.01">
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Category</label>
+                            <select id="expense-category">
+                                <option value="Food & Dining">🍕 Food & Dining</option>
+                                <option value="Groceries">🛒 Groceries</option>
+                                <option value="Transportation">🚗 Transportation</option>
+                                <option value="Shopping">🛍️ Shopping</option>
+                                <option value="Bills & Utilities">⚡ Bills & Utilities</option>
+                                <option value="Entertainment">🎬 Entertainment</option>
+                                <option value="Health & Medical">🏥 Health & Medical</option>
+                                <option value="Education">📚 Education</option>
+                                <option value="Travel">✈️ Travel</option>
+                                <option value="Insurance">🛡️ Insurance</option>
+                                <option value="Rent/Mortgage">🏠 Rent/Mortgage</option>
+                                <option value="Subscriptions">📺 Subscriptions</option>
+                                <option value="Pets">🐕 Pets</option>
+                                <option value="Gifts & Donations">🎁 Gifts & Donations</option>
+                                <option value="Personal Care">💄 Personal Care</option>
+                                <option value="Other">🎯 Other</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Payment Method</label>
+                            <select id="expense-payment">
+                                <option value="Cash">💵 Cash</option>
+                                <option value="Bank Transfer">🏦 Bank Transfer</option>
+                                <option value="Credit Card">💳 Credit Card</option>
+                                <option value="Debit Card">💳 Debit Card</option>
+                                <option value="Digital Wallet">📱 Digital Wallet</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Description/Notes</label>
+                        <textarea id="expense-description" placeholder="Enter description or notes"></textarea>
+                    </div>
+                    <button class="btn btn-expense" onclick="addTransaction('expense')">
+                        🔥 Add Expense
+                    </button>
+                </div>
+            </div>
+
+            <div class="transactions-container">
+                <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">📋 Transaction History</h3>
+                <div class="transaction-filters">
+                    <select class="filter-select" id="filter-type" onchange="filterTransactions()">
+                        <option value="all">All Types</option>
+                        <option value="income">Income Only</option>
+                        <option value="expense">Expenses Only</option>
+                    </select>
+                    <select class="filter-select" id="filter-category" onchange="filterTransactions()">
+                        <option value="all">All Categories</option>
+                    </select>
+                    <select class="filter-select" id="filter-period" onchange="filterTransactions()">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="year">This Year</option>
+                    </select>
+                    <button class="btn btn-secondary" onclick="exportData()" style="width: auto; padding: 8px 16px;">📊 Export Data</button>
+                </div>
+                <div id="transactions-list">
+                    <div style="text-align: center; color: #666; padding: 40px;">
+                        <div style="font-size: 4rem; margin-bottom: 20px;">📭</div>
+                        <p>No transactions yet. Add your first transaction above!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="budget-tab" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>🎯 Monthly Budget Goal</h4>
+                    <div class="input-group">
+                        <label>Set Monthly Budget Limit ($)</label>
+                        <input type="number" id="budget-limit" placeholder="Enter budget limit" step="0.01" onchange="setBudgetGoal()">
+                    </div>
+                    <div class="goal-progress">
+                        <div class="goal-progress-bar" id="budget-progress" style="width: 0%;">
+                            <div class="goal-progress-text" id="budget-progress-text">$0 / $0</div>
+                        </div>
+                    </div>
+                    <p id="budget-status">Set your monthly budget goal above</p>
+                </div>
+
+                <div class="stat-card">
+                    <h4>💰 Savings Goal</h4>
+                    <div class="input-group">
+                        <label>Savings Target ($)</label>
+                        <input type="number" id="savings-target" placeholder="Enter savings target" step="0.01" onchange="setSavingsGoal()">
+                    </div>
+                    <div class="goal-progress">
+                        <div class="goal-progress-bar" id="savings-progress" style="width: 0%; background: linear-gradient(135deg, #4caf50, #81c784);">
+                            <div class="goal-progress-text" id="savings-progress-text">$0 / $0</div>
+                        </div>
+                    </div>
+                    <p id="savings-status">Set your savings goal above</p>
+                </div>
+
+                <div class="stat-card">
+                    <h4>🏷️ Category Spending</h4>
+                    <div class="category-chart" id="category-chart">
+                        <div class="category-item">🎯 No expenses yet</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="reports-tab" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>📊 Monthly Summary</h4>
+                    <div id="monthly-stats">
+                        <p>💰 Total Income: $<span id="monthly-income">0.00</span></p>
+                        <p>💸 Total Expenses: $<span id="monthly-expenses">0.00</span></p>
+                        <p>📈 Net Savings: $<span id="monthly-net">0.00</span></p>
+                        <p>📅 Transactions: <span id="monthly-count">0</span></p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h4>📈 Financial Health Score</h4>
+                    <div style="text-align: center;">
+                        <div style="font-size: 3rem; margin: 20px 0;" id="health-score">85</div>
+                        <div class="goal-progress">
+                            <div class="goal-progress-bar" id="health-progress" style="width: 85%; background: linear-gradient(135deg, #ffd54f, #ffb300);">
+                                <div class="goal-progress-text">Financial Health</div>
+                            </div>
+                        </div>
+                        <p id="health-advice">Great job! Keep tracking your expenses.</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h4>💡 Smart Insights</h4>
+                    <div id="insights-list">
+                        <p>📊 Start adding transactions to get personalized insights!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <!-- Export Modal -->
+    <div class="modal" id="export-modal">
+        <div class="modal-content">
+            <h3 style="color: #667eea; margin-bottom: 20px;">📊 Export Your Data</h3>
+            <p>Choose export format:</p>
+            <div style="display: flex; gap: 10px; margin: 20px 0;">
+                <button class="btn btn-secondary" onclick="exportToCSV()">📄 CSV</button>
+                <button class="btn btn-secondary" onclick="exportToJSON()">📋 JSON</button>
+            </div>
+            <button class="btn" onclick="closeModal()" style="background: #f44336;">✖️ Close</button>
+        </div>
+    </div>
+
+    <script src="ft.js">
+        
+    </script>
+</body>
+</html>
